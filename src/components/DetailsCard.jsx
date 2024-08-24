@@ -5,7 +5,7 @@ import Images from './Images';
 export default function DetailsCard({ account, balance, onClose }) {
   return (
     <div className="relative p-8 text-center">
-      <Card className="max-w-m">
+      <Card className="max-w-m relative">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
