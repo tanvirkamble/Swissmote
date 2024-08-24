@@ -1,18 +1,17 @@
 // src/components/MetaMaskConnect.jsx
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import { Card } from 'flowbite-react';
-import Images from './Images';
-import { Alert } from 'flowbite-react';
+import ErrAlert from './ErrAlert';
+import DetailsCard from './DetailsCard';
 
 const MetaMaskConnect = () => {
   const [account, setAccount] = useState(null);
+  const [accounts, setAccounts] = useState([]); //account with a 's'
   const [balance, setBalance] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [showAlert, setShowAlert] = useState(true);
   const [showCard, setShowCard] = useState(false);
   const [selectedAccount, setSelectedAccount] = useState(null);
-  const [accounts, setAccounts] = useState([]);
 
   const connectMetaMask = async () => {
     if (window.ethereum) {
@@ -54,8 +53,8 @@ const MetaMaskConnect = () => {
       // Fetch balance
       const provider = new ethers.BrowserProvider(window.ethereum);
       const balance = await provider.getBalance(selectedAccount);
-      console.log(ethers.utils);
-      console.log(ethers.formatEther(balance));
+      //   console.log(ethers.utils);
+      //   console.log(ethers.formatEther(balance));
 
       setAccount(selectedAccount);
       setBalance(ethers.formatEther(balance));
@@ -81,26 +80,20 @@ const MetaMaskConnect = () => {
     <div className="flex flex-col items-center justify-center h-screen">
       <button
         onClick={connectMetaMask}
-        className="bg-blue-500 text-white p-2 rounded">
+        className="bg-blue-500 text-white p-2 rounded hover:bg-gray-700">
         Connect MetaMask
       </button>
 
       {showAlert && errorMessage && (
-        <Alert color="failure" className="absolute top-0 left-0 right-0 m-4">
-          <span className="font-medium">ERROR!</span>
-          {errorMessage}
-          <button
-            onClick={() => {
-              setShowAlert(false);
-              setErrorMessage(null);
-              setAccount(null);
-              setBalance(null);
-            }}
-            className="absolute right-2 px-2 text-gray-600 hover:text-gray-900">
-            <span className="sr-only">Close</span>
-            &times;
-          </button>
-        </Alert>
+        <ErrAlert
+          message={errorMessage}
+          onClose={() => {
+            setShowAlert(false);
+            setErrorMessage(null);
+            setAccount(null);
+            setBalance(null);
+          }}
+        />
       )}
 
       {accounts.length > 1 && (
@@ -111,7 +104,7 @@ const MetaMaskConnect = () => {
               <li key={index}>
                 <button
                   onClick={() => setSelectedAccount(acc)}
-                  className="bg-blue-500 text-white p-2 rounded mb-2">
+                  className="bg-blue-500 text-white p-2 rounded mb-2 hover:bg-gray-700">
                   {acc}
                 </button>
               </li>
@@ -121,31 +114,18 @@ const MetaMaskConnect = () => {
       )}
 
       {showCard && account && (
-        <div className="relative p-8 text-center">
-          <Card
-            className="max-w-m relative"
-            renderImage={() => (
-              <Images width={500} height={500} src="/eth.png" alt="Ethereum" />
-            )}>
-            <button
-              onClick={() => {
-                setShowCard(false);
-                setAccount(null);
-              }}
-              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
-              <span className="sr-only">Close</span>
-              &times;
-            </button>
-            <h5 className="text-2xl tracking-tight text-gray-900 dark:text-white">
-              <strong>Connected Account:</strong> {account}
-            </h5>
-            <p className="font-normal text-gray-700 dark:text-gray-400">
-              <strong>Balance:</strong> {balance} ETH
-            </p>
-          </Card>
-        </div>
+        <DetailsCard
+          account={account}
+          balance={balance}
+          onClose={() => {
+            setShowCard(false);
+            setAccount(null);
+          }}
+        />
       )}
-      {!account && !showAlert && <p className="p-8">not connected</p>}
+      {!account && !showAlert && (
+        <p className="p-8 text-gray-400"> not yet connected</p>
+      )}
     </div>
   );
 };
