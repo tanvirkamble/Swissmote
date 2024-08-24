@@ -1,5 +1,5 @@
 // src/components/MetaMaskConnect.jsx
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
 import { Card } from 'flowbite-react';
 import Images from './Images';
@@ -11,6 +11,8 @@ const MetaMaskConnect = () => {
   const [errorMessage, setErrorMessage] = useState(null);
   const [showAlert, setShowAlert] = useState(true);
   const [showCard, setShowCard] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState(null);
+  const [accounts, setAccounts] = useState([]);
 
   const connectMetaMask = async () => {
     if (window.ethereum) {
@@ -19,18 +21,13 @@ const MetaMaskConnect = () => {
         const accounts = await window.ethereum.request({
           method: 'eth_requestAccounts',
         });
-        const provider = new ethers.BrowserProvider(window.ethereum);
-        // console.log(ethers);
 
-        const signer = provider.getSigner();
-        const account = accounts[0];
-        setAccount(account);
-
-        // Fetch balance
-        const balance = await provider.getBalance(account);
-        setBalance(ethers.formatEther(balance));
-        console.log(ethers.utils);
-        console.log(ethers.formatEther(balance));
+        if (accounts.length > 1) {
+          setAccounts(accounts);
+          setShowAlert(false);
+        } else {
+          handleAccountSelection(accounts[0]);
+        }
 
         setErrorMessage(null);
         setShowAlert(false);
@@ -51,6 +48,34 @@ const MetaMaskConnect = () => {
       setShowCard(false);
     }
   };
+
+  const handleAccountSelection = async (selectedAccount) => {
+    try {
+      // Fetch balance
+      const provider = new ethers.BrowserProvider(window.ethereum);
+      const balance = await provider.getBalance(selectedAccount);
+      console.log(ethers.utils);
+      console.log(ethers.formatEther(balance));
+
+      setAccount(selectedAccount);
+      setBalance(ethers.formatEther(balance));
+      setErrorMessage(null);
+      setShowAlert(false);
+      setShowCard(true);
+      setAccounts([]);
+      setSelectedAccount(null);
+    } catch (error) {
+      console.error('An error occurred while fetching account details:', error);
+      setErrorMessage('An error occurred while fetching account details.');
+      setShowAlert(true);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedAccount) {
+      handleAccountSelection(selectedAccount);
+    }
+  }, [selectedAccount]);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen">
@@ -78,15 +103,35 @@ const MetaMaskConnect = () => {
         </Alert>
       )}
 
-      {showCard && account ? (
-        <div className="p-8 text-center">
+      {accounts.length > 1 && (
+        <div className="relative p-8 text-center">
+          <h3 className="text-lg mb-4">Select an Account:</h3>
+          <ul className="list-none p-0">
+            {accounts.map((acc, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => setSelectedAccount(acc)}
+                  className="bg-blue-500 text-white p-2 rounded mb-2">
+                  {acc}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {showCard && account && (
+        <div className="relative p-8 text-center">
           <Card
             className="max-w-m relative"
             renderImage={() => (
-              <Images width={500} height={500} src="/eth.png" alt="image 1" />
+              <Images width={500} height={500} src="/eth.png" alt="Ethereum" />
             )}>
             <button
-              onClick={() => setShowCard(false)}
+              onClick={() => {
+                setShowCard(false);
+                setAccount(null);
+              }}
               className="absolute top-2 right-2 text-gray-600 hover:text-gray-900">
               <span className="sr-only">Close</span>
               &times;
@@ -99,9 +144,8 @@ const MetaMaskConnect = () => {
             </p>
           </Card>
         </div>
-      ) : (
-        <p className="p-8">not connected</p>
       )}
+      {!account && !showAlert && <p className="p-8">not connected</p>}
     </div>
   );
 };
