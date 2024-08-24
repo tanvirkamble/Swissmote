@@ -32,7 +32,7 @@ export default function EthereumNews() {
   return (
     <>
       <NavigationBar />
-      <div className="p-5">
+      <div className="p-5 bg-gray-100 h-screen">
         <h1 className="text-2xl font-bold mb-4">Ethereum News</h1>
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {news.map((article, index) => (

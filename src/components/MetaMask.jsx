@@ -79,7 +79,7 @@ const MetaMaskConnect = () => {
   }, [selectedAccount]);
 
   return (
-    <>
+    <div className="bg-gray-100">
       <NavigationBar />
       <div className="flex flex-col items-center justify-center h-screen">
         <button
@@ -132,7 +132,7 @@ const MetaMaskConnect = () => {
         )}
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 
