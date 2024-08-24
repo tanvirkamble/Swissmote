@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Home from './components/Home';
 import EthereumNews from './components/EthereumNews';
-import MetaMaskConnect from './components/MetaMaskconnect';
+import MetaMaskConnect from './components/MetaMaskConnect';
 
 const App = () => {
   return (
