@@ -1,18 +1,15 @@
-// import './index.css';
-// import { Button } from 'flowbite-react';
-import MetaMaskConnect from './components/MetaMaskconnect';
+import { Routes, Route } from 'react-router-dom';
+import Home from './components/Home';
+import EthereumNews from './components/EthereumNews';
+import MetaMaskConnect from './components/MetaMaskConnect';
 
 const App = () => {
   return (
-    <div className="">
-      <h1 className="text-center my-6 mx-6">hello</h1>
-
-      {/* <Button className="" outline gradientDuoTone="redToYellow">
-        Cyan to Blue
-      </Button> */}
-
-      <MetaMaskConnect />
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/news" element={<EthereumNews />} />
+      <Route path="/wallet" element={<MetaMaskConnect />} />
+    </Routes>
   );
 };
 

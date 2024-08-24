@@ -1,11 +1,16 @@
 import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
+import ReactDOM from 'react-dom/client';
 import App from './App.jsx';
 import './index.css';
 import 'flowbite/dist/flowbite.css';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-createRoot(document.getElementById('root')).render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
   <StrictMode>
-    <App />
+    <Router>
+      <App />
+    </Router>
   </StrictMode>
 );

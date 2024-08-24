@@ -1,8 +1,10 @@
 // src/components/MetaMaskConnect.jsx
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import ErrAlert from './ErrAlert';
-import DetailsCard from './DetailsCard';
+import ErrAlert from './MetaMaskComponents/ErrAlert';
+import DetailsCard from './MetaMaskComponents/DetailsCard';
+import { NavigationBar } from './partials/NavigationBar';
+import Footer from './partials/footer';
 
 const MetaMaskConnect = () => {
   const [account, setAccount] = useState(null);
@@ -77,56 +79,60 @@ const MetaMaskConnect = () => {
   }, [selectedAccount]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <button
-        onClick={connectMetaMask}
-        className="bg-blue-500 text-white p-2 rounded hover:bg-gray-700">
-        Connect MetaMask
-      </button>
+    <>
+      <NavigationBar />
+      <div className="flex flex-col items-center justify-center h-screen">
+        <button
+          onClick={connectMetaMask}
+          className="bg-blue-500 text-white p-2 rounded hover:bg-gray-700">
+          Connect MetaMask
+        </button>
 
-      {showAlert && errorMessage && (
-        <ErrAlert
-          message={errorMessage}
-          onClose={() => {
-            setShowAlert(false);
-            setErrorMessage(null);
-            setAccount(null);
-            setBalance(null);
-          }}
-        />
-      )}
+        {showAlert && errorMessage && (
+          <ErrAlert
+            message={errorMessage}
+            onClose={() => {
+              setShowAlert(false);
+              setErrorMessage(null);
+              setAccount(null);
+              setBalance(null);
+            }}
+          />
+        )}
 
-      {accounts.length > 1 && (
-        <div className="relative p-8 text-center">
-          <h3 className="text-lg mb-4">Select an Account:</h3>
-          <ul className="list-none p-0">
-            {accounts.map((acc, index) => (
-              <li key={index}>
-                <button
-                  onClick={() => setSelectedAccount(acc)}
-                  className="bg-blue-500 text-white p-2 rounded mb-2 hover:bg-gray-700">
-                  {acc}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {accounts.length > 1 && (
+          <div className="relative p-8 text-center">
+            <h3 className="text-lg mb-4">Select an Account:</h3>
+            <ul className="list-none p-0">
+              {accounts.map((acc, index) => (
+                <li key={index}>
+                  <button
+                    onClick={() => setSelectedAccount(acc)}
+                    className="bg-blue-500 text-white p-2 rounded mb-2 hover:bg-gray-700">
+                    {acc}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
-      {showCard && account && (
-        <DetailsCard
-          account={account}
-          balance={balance}
-          onClose={() => {
-            setShowCard(false);
-            setAccount(null);
-          }}
-        />
-      )}
-      {!account && !showAlert && (
-        <p className="p-8 text-gray-400"> not yet connected</p>
-      )}
-    </div>
+        {showCard && account && (
+          <DetailsCard
+            account={account}
+            balance={balance}
+            onClose={() => {
+              setShowCard(false);
+              setAccount(null);
+            }}
+          />
+        )}
+        {!account && !showAlert && (
+          <p className="p-8 text-gray-400"> not yet connected</p>
+        )}
+      </div>
+      <Footer />
+    </>
   );
 };
 
