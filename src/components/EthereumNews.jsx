@@ -13,7 +13,7 @@ export default function EthereumNews() {
         const response = await axios.get('https://newsapi.org/v2/everything', {
           params: {
             q: 'Ethereum',
-            apiKey: '14575940aef442f9bd66f8959ac14dd7',
+            apiKey: import.meta.env.VITE_NEWS_API_KEY, // Updated line
             language: 'en',
             sortBy: 'publishedAt',
             pageSize: 9,
@@ -26,6 +26,10 @@ export default function EthereumNews() {
         setNews(response.data.articles);
       } catch (error) {
         console.error('Error fetching Ethereum news:', error);
+        <p>
+          <strong>ERROR!</strong>
+          {error}
+        </p>;
       }
     };
 
