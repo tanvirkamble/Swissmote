@@ -18,6 +18,9 @@ export default function EthereumNews() {
             sortBy: 'publishedAt',
             pageSize: 9,
           },
+          headers: {
+            Accept: 'application/json',
+          },
         });
 
         setNews(response.data.articles);
