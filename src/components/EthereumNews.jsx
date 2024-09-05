@@ -2,10 +2,11 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Button, Card } from 'flowbite-react';
 import { NavigationBar } from './partials/NavigationBar';
-import Footer from './partials/footerTemp';
+import Footer from './partials/footerTemp'; // Ensure the case matches the file name
 
 export default function EthereumNews() {
   const [news, setNews] = useState([]);
+  const [error, setError] = useState(null); // Added error state
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -13,7 +14,7 @@ export default function EthereumNews() {
         const response = await axios.get('https://newsapi.org/v2/everything', {
           params: {
             q: 'Ethereum',
-            apiKey: import.meta.env.VITE_NEWS_API_KEY, // Updated line
+            apiKey: import.meta.env.VITE_NEWS_API_KEY, // Ensure the API key is correct
             language: 'en',
             sortBy: 'publishedAt',
             pageSize: 9,
@@ -24,12 +25,10 @@ export default function EthereumNews() {
         });
 
         setNews(response.data.articles);
+        setError(null); // Clear error if request is successful
       } catch (error) {
+        setError('Failed to fetch Ethereum news.');
         console.error('Error fetching Ethereum news:', error);
-        <p>
-          <strong>ERROR!</strong>
-          {error}
-        </p>;
       }
     };
 
@@ -41,6 +40,11 @@ export default function EthereumNews() {
       <NavigationBar />
       <div className="p-5 bg-gray-100 h-screen">
         <h1 className="text-2xl font-bold mb-4">Ethereum News</h1>
+        {error && (
+          <p className="text-red-500 text-center mb-4">
+            <strong>Error:</strong> {error}
+          </p>
+        )}
         <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
           {news.map((article, index) => (
             <Card key={index} className="max-w-sm">
