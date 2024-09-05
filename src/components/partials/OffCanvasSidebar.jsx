@@ -84,6 +84,18 @@ export default function OffCanvasSidebar() {
                 <span className="ml-3">WALLET</span>
               </Link>
             </li>
+            <li>
+              <Link
+                to="/cryptovalue"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <img
+                  src="/dollar-sign-svgrepo-com.svg"
+                  alt="cryptovalue"
+                  className="w-5 h-5"
+                />
+                <span className="ml-3">CRYPTO VALUES</span>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
