@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import ErrAlert from './MetaMaskComponents/ErrAlert';
 import DetailsCard from './MetaMaskComponents/DetailsCard';
 import { NavigationBar } from './partials/NavigationBar';
-import Footer from './partials/footer';
+import Footer from './partials/footerTemp';
 
 const MetaMaskConnect = () => {
   const [account, setAccount] = useState(null);

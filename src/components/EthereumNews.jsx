@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { Button, Card } from 'flowbite-react';
 import { NavigationBar } from './partials/NavigationBar';
-import Footer from './partials/footer';
+import Footer from './partials/footerTemp';
 
 export default function EthereumNews() {
   const [news, setNews] = useState([]);

@@ -1,4 +1,4 @@
-import Footer from './partials/footer';
+import Footer from './partials/footerTemp';
 import { NavigationBar } from './partials/NavigationBar';
 
 export default function Home() {

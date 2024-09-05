@@ -62,18 +62,6 @@ export default function OffCanvasSidebar() {
           <ul className="space-y-2 font-medium">
             <li>
               <Link
-                to="/news"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                <img
-                  src="/news-svgrepo-com.svg"
-                  alt="News"
-                  className="w-5 h-5"
-                />
-                <span className="ml-3">NEWS</span>
-              </Link>
-            </li>
-            <li>
-              <Link
                 to="/wallet"
                 className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <img
@@ -82,6 +70,18 @@ export default function OffCanvasSidebar() {
                   className="w-5 h-5"
                 />
                 <span className="ml-3">WALLET</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/news"
+                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <img
+                  src="/news-svgrepo-com.svg"
+                  alt="News"
+                  className="w-5 h-5"
+                />
+                <span className="ml-3">NEWS</span>
               </Link>
             </li>
             <li>
